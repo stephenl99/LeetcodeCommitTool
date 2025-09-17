@@ -59,12 +59,7 @@ function waitForSubmissionToStart() {
             
             // Check if the submission has started processing
             // This happens when the text changes from the initial state to something indicating processing
-            if (currentText !== initialText && 
-                (currentText === "" || 
-                 currentText.includes("Running") || 
-                 currentText.includes("Judging") ||
-                 currentText.includes("Pending") ||
-                 currentText.includes("Processing"))) {
+            if (currentText !== initialText) {
                 
                 console.log("Submission started processing! Current text:", currentText);
                 observer.disconnect();
@@ -128,7 +123,17 @@ function waitForAcceptedSubmission() {
 }
 
 function handleAcceptedSubmission() {
+    const url = window.location.href;
+    const splitUrl = url.split("/");
+    const problemId = formatProblemId(splitUrl[4]);
+    console.log("Problem ID:", problemId);
+
     const title = document.querySelector("div[data-cy='question-title']")?.innerText;
+    
+    // Extract problem number from title (e.g. "1. Two Sum" -> "1")
+    const problemNumber = title ? title.split('.')[0].trim() : null;
+    console.log("Problem Number:", problemNumber);
+    
     const codeMirror = document.querySelector(".monaco-editor");
     
     // Better code extraction for Monaco editor
