@@ -2,6 +2,36 @@ let justSubmitted = false;
 let WAIT_TIME = 500;
 let TIMEOUT = 5000; // Increase timeout to 10 seconds
 let initialResultText = null; // Track the initial state
+let problemNumber = null;
+
+function updateProblemNumber() {
+    const titleElement = document.querySelector("a.no-underline.hover\\:text-blue-s");
+    const title = titleElement?.innerText;
+    const newProblemNumber = title ? title.split('.')[0].trim() : null;
+    
+    if (newProblemNumber !== problemNumber) {
+        problemNumber = newProblemNumber;
+        console.log("Problem Number updated:", problemNumber);
+    }
+}
+
+function startProblemNumberMonitor() {
+    // Update immediately
+    updateProblemNumber();
+    
+    // Set up observer to watch for changes in the problem title
+    const observer = new MutationObserver(() => {
+        updateProblemNumber();
+    });
+    
+    observer.observe(document.body, { 
+        childList: true, 
+        subtree: true 
+    });
+    
+    // Also check periodically as a backup
+    setInterval(updateProblemNumber, 1000);
+}
 
 function trackSubmitButton() {
   return new Promise((resolve) => {
@@ -127,12 +157,6 @@ function handleAcceptedSubmission() {
     const splitUrl = url.split("/");
     const problemId = formatProblemId(splitUrl[4]);
     console.log("Problem ID:", problemId);
-
-    const title = document.querySelector("div[data-cy='question-title']")?.innerText;
-    
-    // Extract problem number from title (e.g. "1. Two Sum" -> "1")
-    const problemNumber = title ? title.split('.')[0].trim() : null;
-    console.log("Problem Number:", problemNumber);
     
     const codeMirror = document.querySelector(".monaco-editor");
     
@@ -154,7 +178,8 @@ function handleAcceptedSubmission() {
     
     const lang = document.querySelector("button[data-cy='lang-select']")?.innerText;
 
-    console.log("Problem:", title);
+    console.log("Problem:", problemId);
+    console.log("Problem Number:", problemNumber);
     console.log("Language:", lang);
     console.log("Code:\n", code);
 
@@ -163,5 +188,6 @@ function handleAcceptedSubmission() {
 
 // Initialize when on a LeetCode problem page
 if (window.location.href.includes("leetcode.com/problems/")) {
+    startProblemNumberMonitor();
     trackSubmitButton();
 }
