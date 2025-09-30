@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <style>
+        body {
+            width: 400px;
+            padding: 20px;
+            font-family: Arial, sans-serif;
+        }
+        .form-group {
+            margin-bottom: 15px;
+        }
+        label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: bold;
+        }
+        input[type="text"], input[type="password"] {
+            width: 100%;
+            padding: 8px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            box-sizing: border-box;
+        }
+        button {
+            background-color: #007bff;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            width: 100%;
+            margin-top: 10px;
+        }
+        button:hover {
+            background-color: #0056b3;
+        }
+        .status {
+            margin-top: 15px;
+            padding: 10px;
+            border-radius: 4px;
+            display: none;
+        }
+        .success {
+            background-color: #d4edda;
+            color: #155724;
+            border: 1px solid #c3e6cb;
+        }
+        .error {
+            background-color: #f8d7da;
+            color: #721c24;
+            border: 1px solid #f5c6cb;
+        }
+        .user-info {
+            background-color: #f8f9fa;
+            padding: 15px;
+            border-radius: 4px;
+            margin-bottom: 15px;
+        }
+        .logout-btn {
+            background-color: #dc3545;
+            margin-top: 10px;
+        }
+        .logout-btn:hover {
+            background-color: #c82333;
+        }
+    </style>
+</head>
+<body>
+    <div id="loginForm">
+        <h2>LeetCode to GitHub</h2>
+        <p>Enter your GitHub credentials to start auto-committing your LeetCode solutions.</p>
+        
+        <div class="form-group">
+            <label for="githubUsername">GitHub Username:</label>
+            <input type="text" id="githubUsername" placeholder="your-github-username">
+        </div>
+        
+        <div class="form-group">
+            <label for="githubRepo">Repository Name:</label>
+            <input type="text" id="githubRepo" placeholder="Leetcode" value="Leetcode">
+        </div>
+        
+        <div class="form-group">
+            <label for="githubToken">GitHub Personal Access Token:</label>
+            <input type="password" id="githubToken" placeholder="ghp_xxxxxxxxxxxxxxxxxxxx">
+            <small style="color: #666; font-size: 12px;">
+                Create a token at: <a href="https://github.com/settings/tokens" target="_blank">github.com/settings/tokens</a><br>
+                Required permissions: <strong>repo</strong> (for private repos) or <strong>public_repo</strong> (for public repos)
+            </small>
+        </div>
+        
+        <button id="saveCredentials">Save Credentials</button>
+        
+        <div id="status" class="status"></div>
+    </div>
+    
+    <div id="userInfo" style="display: none;">
+        <h2>Account Settings</h2>
+        <div class="user-info">
+            <p><strong>GitHub Username:</strong> <span id="displayUsername"></span></p>
+            <p><strong>Repository:</strong> <span id="displayRepo"></span></p>
+            <p><strong>Token:</strong> <span id="displayToken"></span></p>
+        </div>
+        <button id="editCredentials" class="logout-btn">Edit Credentials</button>
+        <button id="logout" class="logout-btn">Logout</button>
+    </div>
+    
+    <script src="popup.js"></script>
+</body>
+</html>
